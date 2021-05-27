@@ -19,13 +19,13 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String NOME_BANCO_DE_DADOS = "bdEmpregados.db";
+    public static final String NOME_BANCO_DE_DADOS = "bdPrateleira.db";
 
-    TextView lblEmpregados;
-    EditText txtNomeEmpregado, txtSalarioEmpregado;
-    Spinner spnDepartamentos;
+    TextView lblLivros;
+    EditText txtNomeLivro, txtAutorLivro, txtValorLivro;
+    Spinner spnQualidades;
 
-    Button btnAdcionaFuncionario;
+    Button btnAdcionaLivro;
 
     SQLiteDatabase meuBancoDeDados;
 
@@ -34,77 +34,86 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lblEmpregados = findViewById(R.id.lblVisualizaFuncionario);
-        txtNomeEmpregado = findViewById(R.id.txtNomeNovoFuncionario);
-        txtSalarioEmpregado = findViewById(R.id.txtNovoSalarioFuncionario);
-        spnDepartamentos = findViewById(R.id.spnDepartamentos);
+        lblLivros = findViewById(R.id.lblVisualizaPrateleira);
+        txtNomeLivro = findViewById(R.id.txtNomeNovoLivro);
+        txtAutorLivro = findViewById(R.id.txtAutorNovoLivro);
+        txtValorLivro = findViewById(R.id.txtValorNovoLivro);
+        spnQualidades = findViewById(R.id.spnQualidades);
 
-        btnAdcionaFuncionario = findViewById(R.id.btnAdicionarfuncionario);
+        btnAdcionaLivro = findViewById(R.id.btnAdicionarLivro);
 
-        btnAdcionaFuncionario.setOnClickListener(this);
+        btnAdcionaLivro.setOnClickListener(this);
 
-        lblEmpregados.setOnClickListener(this);
+        lblLivros.setOnClickListener(this);
 
         //Criando banco de dados
 
         meuBancoDeDados = openOrCreateDatabase(NOME_BANCO_DE_DADOS, MODE_PRIVATE, null);
 
-        criarTabelaEmpregado();
+        criarPrateleiraLivros();
     }
 
 //Este método irá validar o nome e o salário
     //departamento não precisa de validação, pois é um spinner e não pode estar vazio
 
-    private boolean verificarEntrada(String nome, String salario) {
+    private boolean verificarEntrada(String nome, String autor, String salario) {
         if (nome.isEmpty()) {
-            txtNomeEmpregado.setError("Por favor entre com o nome");
-            txtNomeEmpregado.requestFocus();
+            txtNomeLivro.setError("Por favor entre com o nome");
+            txtNomeLivro.requestFocus();
+            return false;
+        }
+
+        if (autor.isEmpty()) {
+            txtAutorLivro.setError("Por favor entre com o autor");
+            txtAutorLivro.requestFocus();
             return false;
         }
 
         if (salario.isEmpty() || Integer.parseInt(salario) <= 0) {
-            txtSalarioEmpregado.setError("Por favor entre com o salário");
-            txtSalarioEmpregado.requestFocus();
+            txtValorLivro.setError("Por favor entre com o valor");
+            txtValorLivro.requestFocus();
             return false;
         }
         return true;
     }
 
     //Neste método vamos fazer a operação para adicionar os funcionario
-    private void adicionarEmpregado() {
+    private void adicionarLivro() {
 
         Locale meuLocal = new Locale("pt", "BR");
         NumberFormat nf = NumberFormat.getCurrencyInstance(meuLocal);
 
 
-        String nomeEmpr = txtNomeEmpregado.getText().toString().trim();
-        String salarioEmpr = txtSalarioEmpregado.getText().toString().trim();
-        String deptoEmpr = spnDepartamentos.getSelectedItem().toString();
+        String nomeLivro = txtNomeLivro.getText().toString().trim();
+        String autorLivro = txtAutorLivro.getText().toString().trim();
+        String valorLivro = txtValorLivro.getText().toString().trim();
+        String qualLivro = spnQualidades.getSelectedItem().toString();
 
         // obtendo o horário atual para data de inclusão
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        String dataEntrada = simpleDateFormat.format(calendar.getTime());
+        String dataInclusao = simpleDateFormat.format(calendar.getTime());
 
 
         //validando entrada
-        if (verificarEntrada(nomeEmpr, salarioEmpr)) {
+        if (verificarEntrada(nomeLivro, autorLivro, valorLivro)) {
 
-            String insertSQL = "INSERT INTO funcionarios (" +
+            String insertSQL = "INSERT INTO prateleira (" +
                     "nome, " +
-                    "departamento, " +
-                    "dataEntrada," +
-                    "salario)" +
-                    "VALUES(?, ?, ?, ?);";
+                    "autor, " +
+                    "qualidade, " +
+                    "dataInclusao," +
+                    "valor)" +
+                    "VALUES(?, ?, ?, ?, ?);";
 
             // usando o mesmo método execsql para inserir valores
             // desta vez tem dois parâmetros
             // primeiro é a string sql e segundo são os parâmetros que devem ser vinculados à consulta
 
-            meuBancoDeDados.execSQL(insertSQL, new String[]{nomeEmpr, deptoEmpr, dataEntrada, salarioEmpr});
+            meuBancoDeDados.execSQL(insertSQL, new String[]{nomeLivro, autorLivro, qualLivro, dataInclusao, valorLivro});
 
-            Toast.makeText(getApplicationContext(), "Funcionário adicionado com sucesso!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Livro adicionado com sucesso!!!", Toast.LENGTH_SHORT).show();
             limparCadastro();
         }
 
@@ -112,20 +121,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void limparCadastro() {
 
-        txtNomeEmpregado.setText("");
-        txtSalarioEmpregado.setText("");
-        txtNomeEmpregado.requestFocus();
+        txtNomeLivro.setText("");
+        txtValorLivro.setText("");
+        txtAutorLivro.setText("");
+        txtNomeLivro.requestFocus();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnAdicionarfuncionario:
+            case R.id.btnAdicionarLivro:
 
-                adicionarEmpregado();
+                adicionarLivro();
                 break;
-            case R.id.lblVisualizaFuncionario:
-                startActivity(new Intent(getApplicationContext(), Funcionarios_Activity.class));
+            case R.id.lblVisualizaPrateleira:
+                startActivity(new Intent(getApplicationContext(), Prateleira_Activity.class));
                 break;
         }
 
@@ -135,16 +145,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // Eu adicionei IF NOT EXISTS ao SQL
     // então, só criará a tabela quando a tabela ainda não estiver criada
 
-    private void criarTabelaEmpregado() {
+    private void criarPrateleiraLivros() {
         meuBancoDeDados.execSQL(
-                "CREATE TABLE IF NOT EXISTS funcionarios (" +
+                "CREATE TABLE IF NOT EXISTS prateleira (" +
                         "id integer PRIMARY KEY AUTOINCREMENT," +
                         "nome varchar(200) NOT NULL," +
-                        "departamento varchar(200) NOT NULL," +
-                        "dataEntrada datetime NOT NULL," +
-                        "salario double NOT NULL );"
+                        "autor varchar(200) NOT NULL," +
+                        "qualidade varchar(200) NOT NULL," +
+                        "dataInclusao datetime NOT NULL," +
+                        "valor double NOT NULL );"
         );
     }
-
-
 }

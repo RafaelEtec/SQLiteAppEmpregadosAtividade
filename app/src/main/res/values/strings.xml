@@ -9,4 +9,12 @@
         <item>Recursos Humanos</item>
         <item>Financeiro</item>
     </array>
+
+    <array name="qualidades">
+        <item>Ótimo</item>
+        <item>Bom</item>
+        <item>Regular</item>
+        <item>Ruim</item>
+        <item>Péssimo</item>
+    </array>
 </resources>
