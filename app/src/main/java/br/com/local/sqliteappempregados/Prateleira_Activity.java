@@ -48,9 +48,8 @@ public class Prateleira_Activity extends AppCompatActivity {
         }
         cursorLivros.close();
 
-        //Verificar o layout
         prateleiraAdapter = new PrateleiraAdapter(this, R.layout.lista_view_prateleira, livrosList, meuBancoDeDados);
-
+        
         listViewPrateleira.setAdapter(prateleiraAdapter);
     }
 }

@@ -48,14 +48,14 @@ public class PrateleiraAdapter extends ArrayAdapter<Livros> {
         TextView txtViewNome = view.findViewById(R.id.txtNomeViewLivro);
         TextView txtViewAutor = view.findViewById(R.id.txtAutorViewLivro);
         TextView txtViewGenero = view.findViewById(R.id.txtGeneroViewLivro);
-        TextView txtViewQual = view.findViewById(R.id.txtQualidadeViewlivro);
+        TextView txtViewQualidades = view.findViewById(R.id.txtQualidadesViewlivro);
         TextView txtViewValor = view.findViewById(R.id.txtValorViewLivro);
         TextView txtViewDataInclusao = view.findViewById(R.id.txtInclusaoViewLivro);
 
         txtViewNome.setText(livros.getNome());
         txtViewAutor.setText(livros.getAutor());
         txtViewGenero.setText(livros.getGenero());
-        txtViewQual.setText(livros.getQualidade());
+        txtViewQualidades.setText(livros.getQualidades());
         txtViewValor.setText(String.valueOf(livros.getValor()));
         txtViewDataInclusao.setText(livros.getDataInclusaoSistema());
 
@@ -106,8 +106,8 @@ public class PrateleiraAdapter extends ArrayAdapter<Livros> {
         final EditText txtEditarNome = view.findViewById(R.id.txtEditarNome);
         final EditText txtEditarAutor = view.findViewById(R.id.txtEditarAutor);
         final EditText txtEditarGenero = view.findViewById(R.id.txtEditarGenero);
-        final EditText txtEditarValor = view.findViewById(R.id.txtEditarValor);
         final Spinner spnQualidades = view.findViewById(R.id.spnQualidades);
+        final EditText txtEditarValor = view.findViewById(R.id.txtEditarValor);
 
         txtEditarNome.setText(livros.getNome());
         txtEditarAutor.setText(livros.getAutor());
@@ -123,8 +123,8 @@ public class PrateleiraAdapter extends ArrayAdapter<Livros> {
                 String nome = txtEditarNome.getText().toString().trim();
                 String autor = txtEditarAutor.getText().toString().trim();
                 String genero = txtEditarGenero.getText().toString().trim();
-                String valor = txtEditarValor.getText().toString().trim();
                 String qualidades = spnQualidades.getSelectedItem().toString().trim();
+                String valor = txtEditarValor.getText().toString().trim();
 
                 if (nome.isEmpty()) {
                     txtEditarNome.setError("Nome está em branco");
@@ -149,7 +149,7 @@ public class PrateleiraAdapter extends ArrayAdapter<Livros> {
 
                 String sql = "UPDATE prateleira SET nome = ?, autor = ?, genero = ?, qualidades = ?, valor = ? WHERE id = ?";
                 meuBancoDeDados.execSQL(sql,
-                        new String[]{nome, qualidades, valor, String.valueOf(livros.getId())});
+                        new String[]{nome, autor, genero, qualidades, valor, String.valueOf(livros.getId())});
                 Toast.makeText(mCtx, "Livro alterado com sucesso!!!", Toast.LENGTH_LONG).show();
 
                 recarregarPrateleiraDB();
