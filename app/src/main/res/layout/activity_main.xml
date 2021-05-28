@@ -32,6 +32,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Entre com o nome do Autor" />
+
+        <EditText
+            android:id="@+id/txtGeneroNovoLivro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Entre com o Gênero do livro" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

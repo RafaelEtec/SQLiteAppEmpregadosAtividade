@@ -2,14 +2,15 @@ package br.com.local.sqliteappempregados;
 
 public class Livros {
     int id;
-    String nome, autor, genero, dataInclusaoSistema;
+    String nome, autor, qualidade, genero, dataInclusaoSistema;
     double valor;
 
-    public Livros(int id, String nome, String autor, String genero, String dataInclusaoSistema, double valor) {
+    public Livros(int id, String nome, String autor, String qualidade, String genero, String dataInclusaoSistema, double valor) {
         this.id = id;
         this.nome = nome;
         this.autor = autor;
         this.genero = genero;
+        this.qualidade = qualidade;
         this.dataInclusaoSistema = dataInclusaoSistema;
         this.valor = valor;
     }
@@ -36,6 +37,14 @@ public class Livros {
 
     public void setAutor(String autor) {
         this.autor = autor;
+    }
+
+    public String getQualidade() {
+        return qualidade;
+    }
+
+    public void setQualidade() {
+        this.qualidade = qualidade;
     }
 
     public String getGenero() {

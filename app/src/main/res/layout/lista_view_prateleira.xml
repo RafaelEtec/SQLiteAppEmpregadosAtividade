@@ -5,4 +5,77 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
+    <LinearLayout
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtNomeViewLivro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="Nome do Livro"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/txtAutorViewLivro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Autor do livro"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/txtGeneroViewLivro"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Gênero"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
+
+        <TextView
+            android:id="@+id/txtQualidadeViewlivro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Qualidade"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/txtValorViewLivro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Valor"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/txtInclusaoViewLivro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Data de inclusão no sistema" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnEditarViewLivro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:backgroundTint="#009688"
+            android:text="Editar" />
+
+        <Button
+            android:id="@+id/btnExcluirViewLivro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:backgroundTint="#FF5722"
+            android:text="Excluir" />
+    </LinearLayout>
 </LinearLayout>

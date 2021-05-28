@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String NOME_BANCO_DE_DADOS = "bdPrateleira.db";
 
     TextView lblLivros;
-    EditText txtNomeLivro, txtAutorLivro, txtValorLivro;
+    EditText txtNomeLivro, txtAutorLivro, txtGeneroLivro, txtValorLivro;
     Spinner spnQualidades;
 
     Button btnAdcionaLivro;
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lblLivros = findViewById(R.id.lblVisualizaPrateleira);
         txtNomeLivro = findViewById(R.id.txtNomeNovoLivro);
         txtAutorLivro = findViewById(R.id.txtAutorNovoLivro);
+        txtGeneroLivro = findViewById(R.id.txtGeneroNovoLivro);
         txtValorLivro = findViewById(R.id.txtValorNovoLivro);
         spnQualidades = findViewById(R.id.spnQualidades);
 
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //Este método irá validar o nome e o salário
     //departamento não precisa de validação, pois é um spinner e não pode estar vazio
 
-    private boolean verificarEntrada(String nome, String autor, String salario) {
+    private boolean verificarEntrada(String nome, String autor, String genero, String valor) {
         if (nome.isEmpty()) {
             txtNomeLivro.setError("Por favor entre com o nome");
             txtNomeLivro.requestFocus();
@@ -69,7 +70,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return false;
         }
 
-        if (salario.isEmpty() || Integer.parseInt(salario) <= 0) {
+        if (genero.isEmpty()) {
+            txtGeneroLivro.setError("Por favor entre com o autor");
+            txtGeneroLivro.requestFocus();
+            return false;
+        }
+
+        if (valor.isEmpty() || Integer.parseInt(valor) <= 0) {
             txtValorLivro.setError("Por favor entre com o valor");
             txtValorLivro.requestFocus();
             return false;
@@ -86,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String nomeLivro = txtNomeLivro.getText().toString().trim();
         String autorLivro = txtAutorLivro.getText().toString().trim();
+        String generoLivro = txtGeneroLivro.getText().toString().trim();
         String valorLivro = txtValorLivro.getText().toString().trim();
         String qualLivro = spnQualidades.getSelectedItem().toString();
 
@@ -97,11 +105,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //validando entrada
-        if (verificarEntrada(nomeLivro, autorLivro, valorLivro)) {
+        if (verificarEntrada(nomeLivro, autorLivro, generoLivro, valorLivro)) {
 
             String insertSQL = "INSERT INTO prateleira (" +
                     "nome, " +
                     "autor, " +
+                    "genero, " +
                     "qualidade, " +
                     "dataInclusao," +
                     "valor)" +
@@ -111,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // desta vez tem dois parâmetros
             // primeiro é a string sql e segundo são os parâmetros que devem ser vinculados à consulta
 
-            meuBancoDeDados.execSQL(insertSQL, new String[]{nomeLivro, autorLivro, qualLivro, dataInclusao, valorLivro});
+            meuBancoDeDados.execSQL(insertSQL, new String[]{nomeLivro, autorLivro, generoLivro, qualLivro, dataInclusao, valorLivro});
 
             Toast.makeText(getApplicationContext(), "Livro adicionado com sucesso!!!", Toast.LENGTH_SHORT).show();
             limparCadastro();
@@ -122,8 +131,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void limparCadastro() {
 
         txtNomeLivro.setText("");
-        txtValorLivro.setText("");
         txtAutorLivro.setText("");
+        txtGeneroLivro.setText("");
+        txtValorLivro.setText("");
         txtNomeLivro.requestFocus();
     }
 
@@ -151,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         "id integer PRIMARY KEY AUTOINCREMENT," +
                         "nome varchar(200) NOT NULL," +
                         "autor varchar(200) NOT NULL," +
+                        "genero varchar(200) NOT NULL," +
                         "qualidade varchar(200) NOT NULL," +
                         "dataInclusao datetime NOT NULL," +
                         "valor double NOT NULL );"
